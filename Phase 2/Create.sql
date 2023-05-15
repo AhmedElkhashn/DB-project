@@ -1,5 +1,6 @@
--- Project_Phase 2
-
+-- Project_Phase 2--
+     --Create--
+     
 --Drop--
 --Drop Constraints
 ALTER TABLE Emp_Grade
