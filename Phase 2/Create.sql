@@ -43,7 +43,8 @@ DROP CONSTRAINT Position_Allowance_Aname_fk;
 
 
 ALTER TABLE Allowance
-DROP CONSTRAINT Allowance_Aname_pk;
+DROP CONSTRAINT Allowance_Aname_pk
+DROP CONSTRAINT Allowance_Aname_ch;
 
 ALTER TABLE Employee
 DROP CONSTRAINT Employee_Emp_ID_pk
@@ -52,7 +53,8 @@ DROP CONSTRAINT Employee_Pos_fk
 DROP CONSTRAINT Employee_Dept_No_fk;
 
 ALTER TABLE Positions
-DROP CONSTRAINT Positions_Pos_name_pk;
+DROP CONSTRAINT Positions_Pos_name_pk
+DROP CONSTRAINT Positions_Pos_name_ch;
 
 ALTER TABLE Department
 DROP CONSTRAINT Dept_number_pk;
@@ -159,11 +161,13 @@ CONSTRAINT Employee_Gender_ch CHECK (Gender='M' or Gender='F'));
 
 ALTER TABLE Positions
 ADD(
-CONSTRAINT Positions_Pos_name_pk PRIMARY KEY (Pos_name));
+CONSTRAINT Positions_Pos_name_pk PRIMARY KEY (Pos_name),
+CONSTRAINT Positions_Pos_name_ch CHECK(Pos_name IN ('Manager', 'Accountant', 'Administrator', 'Clerk', 'HR')));
 
 ALTER TABLE Allowance
 ADD(
-CONSTRAINT Allowance_Aname_pk PRIMARY KEY (Aname));
+CONSTRAINT Allowance_Aname_pk PRIMARY KEY (Aname),
+CONSTRAINT Allowance_Aname_ch CHECK(Aname IN ('Fuel','House','Social','Manager','Uniform')));
 
 ALTER TABLE Position_Allowance
 ADD(
@@ -245,7 +249,7 @@ CONSTRAINT Emp_Grade_fk FOREIGN KEY (Grade) REFERENCES Sal_Grade (Grade),
 CONSTRAINT Grade_Emp_ID_fk FOREIGN KEY (Emp_ID) REFERENCES Employee (Emp_ID));
 
 
-
+--Insertion--
 
 COMMIT;
 
