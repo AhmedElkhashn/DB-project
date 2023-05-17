@@ -14,6 +14,9 @@ DROP CONSTRAINT Transactions_username_fk
 DROP CONSTRAINT Transactions_Emp_ID_fk
 DROP CONSTRAINT Transactions_Pos_fk;
 
+ALTER TABLE Login
+DROP CONSTRAINT Login_Emp_ID_fk;
+
 ALTER TABLE Overtime
 DROP CONSTRAINT Overtime_Emp_ID_Date_Type_pk
 DROP CONSTRAINT Overtime_Type_ch
@@ -110,7 +113,8 @@ CREATE TABLE Vehicle(
     
 CREATE TABLE Login(
     Username VARCHAR2(22),
-    Pass VARCHAR2(22) NOT NULL);
+    Pass VARCHAR2(22) NOT NULL,
+    Emp_ID NUMBER(4) NOT NULL);
 
 CREATE TABLE Transactions(
     Username VARCHAR2(22),
@@ -247,6 +251,10 @@ ALTER TABLE Emp_Grade
 ADD(
 CONSTRAINT Emp_Grade_fk FOREIGN KEY (Grade) REFERENCES Sal_Grade (Grade),
 CONSTRAINT Grade_Emp_ID_fk FOREIGN KEY (Emp_ID) REFERENCES Employee (Emp_ID));
+
+ALTER TABLE Login
+ADD(
+CONSTRAINT Login_Emp_ID_fk FOREIGN KEY (Emp_ID) REFERENCES Employee (Emp_ID));
 
 
 --Insertion--
