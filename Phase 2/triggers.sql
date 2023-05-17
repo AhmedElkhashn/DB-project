@@ -17,11 +17,17 @@ DECLARE
     Max_sal NUMBER(8);
     Min_sal NUMBER(8);
 BEGIN
-    SELECT MAX(Hisal) INTO Max_sal FROM Sal_Grade;
-    SELECT MIN(Losal) INTO Min_sal FROM Sal_Grade;
+    SELECT MAX(Hisal) 
+    INTO Max_sal 
+    FROM Sal_Grade;
+    
+    SELECT MIN(Losal) 
+    INTO Min_sal
+    FROM Sal_Grade;
+    
     IF( :NEW.Salary > Max_sal OR :NEW.Salary > Min_sal)THEN
         RAISE_APPLICATION_ERROR(-20001, 'Salary must belong to a grade');
-    END IF;
+    END IF;    
 END;
 /
 
@@ -29,6 +35,22 @@ CREATE OR REPLACE TRIGGER trg_vehicle_maintenance_ch
     BEFORE INSERT OR UPDATE ON Vehicle
     FOR EACH ROW
 BEGIN
+    IF( MONTH_BETWEEN(:NEW.Next_Maintenance_Date,SYSDATE)<3)THEN
+        RAISE_APPLICATION_ERROR(-20001, 'Maintenance date must be within 3 month');
+    END IF;
+END;
+/
+
+CREATE OR REPLACE TRIGGER trg_login_pos_ch
+    BEFORE INSERT OR UPDATE ON Login
+    FOR EACH ROW
+DECLARE
+    Emp_pos VARCHAR2(22);
+BEGIN
+    SELECT Pos 
+    INTO Emp_pos 
+    FROM Employee
+    WHERE Emp_ID = (SELECT Emp_ID)
     IF( MONTH_BETWEEN(:NEW.Next_Maintenance_Date,SYSDATE)<3)THEN
         RAISE_APPLICATION_ERROR(-20001, 'Maintenance date must be within 3 month');
     END IF;
