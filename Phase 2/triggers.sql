@@ -25,7 +25,7 @@ BEGIN
     INTO Min_sal
     FROM Sal_Grade;
     
-    IF( :NEW.Salary > Max_sal OR :NEW.Salary > Min_sal)THEN
+    IF( :NEW.Salary > Max_sal OR :NEW.Salary < Min_sal)THEN
         RAISE_APPLICATION_ERROR(-20001, 'Salary must belong to a grade');
     END IF;    
 END;
