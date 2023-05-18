@@ -1,11 +1,22 @@
 --Triggers--
 
+--For some reason it sometimes disconnects while runing this file run the statement below to avoid this error
+ALTER SESSION SET PLSCOPE_SETTINGS = 'IDENTIFIERS:NONE';
+
+SET SERVEROUTPUT ON;
+
 CREATE OR REPLACE TRIGGER trg_emp_age_ch
     BEFORE INSERT OR UPDATE ON Employee
     FOR EACH ROW
+DECLARE
+    Age NUMBER(3);
 BEGIN
-    IF( ((:NEW.Birthdate-SYSDATE)/365.2422)>60 OR ((:NEW.Birthdate-SYSDATE)/365.2422)<18)THEN
-        RAISE_APPLICATION_ERROR(-20001, 'Invalid Age');
+    SELECT ((SYSDATE-:NEW.Birthdate)/365.2422)
+    INTO Age
+    FROM DUAL;
+    
+    IF(Age>60 OR Age<18)THEN
+        RAISE_APPLICATION_ERROR(-20001, 'Invalid Age - Age must be between 18-60');
     END IF;
 END;
 /
@@ -34,8 +45,13 @@ END;
 CREATE OR REPLACE TRIGGER trg_vehicle_maintenance_ch
     BEFORE INSERT OR UPDATE ON Vehicle
     FOR EACH ROW
+DECLARE
+    MonthsBetween NUMBER(4);
 BEGIN
-    IF( MONTHS_BETWEEN(:NEW.Next_Maintenance_Date,SYSDATE)<3)THEN
+    SELECT MONTHS_BETWEEN(:NEW.Next_Maintenance_Date,SYSDATE)
+    INTO MonthsBetween
+    FROM DUAL;
+    IF( MonthsBetween>3 OR MonthsBetween<0)THEN
         RAISE_APPLICATION_ERROR(-20001, 'Maintenance date must be within 3 month');
     END IF;
 END;
@@ -72,6 +88,9 @@ BEGIN
 END;
 /
 
+
+
+
 CREATE OR REPLACE TRIGGER trg_Department_count
     AFTER INSERT OR UPDATE OR DELETE ON Employee
     FOR EACH ROW
@@ -102,3 +121,5 @@ BEGIN
     END CASE;
 END;
 /
+
+
