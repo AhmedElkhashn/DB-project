@@ -71,3 +71,34 @@ BEGIN
     END CASE;
 END;
 /
+
+CREATE OR REPLACE TRIGGER trg_Department_count
+    AFTER INSERT OR UPDATE OR DELETE ON Employee
+    FOR EACH ROW
+BEGIN
+    CASE
+        WHEN INSERTING  THEN
+        
+            UPDATE Department
+            SET No_Of_Workers=No_Of_Workers+1
+            WHERE DNumber=:NEW.DeptNo;
+                  
+        WHEN UPDATING THEN
+        
+            UPDATE Department
+            SET No_Of_Workers=No_Of_Workers+1
+            WHERE DNumber=:NEW.DeptNo;
+            
+            UPDATE Department
+            SET No_Of_Workers=No_Of_Workers-1
+            WHERE DNumber=:OLD.DeptNo;    
+            
+        WHEN DELETING THEN
+        
+            UPDATE Department
+            SET No_Of_Workers=No_Of_Workers-1
+            WHERE DNumber=:OLD.DeptNo; 
+            
+    END CASE;
+END;
+/
