@@ -79,14 +79,16 @@ CREATE OR REPLACE TRIGGER trg_transaction
 BEGIN
     CASE
         WHEN INSERTING  THEN
-            INSERT INTO Transactions VALUES(USER,SYSDATE,:NEW.Emp_ID,:NEW.Pos);
+            INSERT INTO Transactions VALUES(USER,SYSDATE,'INSERTION',:NEW.Emp_ID,:NEW.Pos);
         WHEN UPDATING THEN
-            INSERT INTO Transactions VALUES(USER,SYSDATE,:NEW.Emp_ID,:NEW.Pos);
+            INSERT INTO Transactions VALUES(USER,SYSDATE,'UPDATE',:NEW.Emp_ID,:NEW.Pos);
         WHEN DELETING THEN
-            INSERT INTO Transactions VALUES(USER,SYSDATE,:OLD.Emp_ID,:OLD.Pos);
+            INSERT INTO Transactions VALUES(USER,SYSDATE,'DELETE',:OLD.Emp_ID,:OLD.Pos);
     END CASE;
 END;
 /
+
+ALTER TRIGGER trg_transaction DISABLE;
 
 
 
@@ -122,4 +124,67 @@ BEGIN
 END;
 /
 
+CREATE OR REPLACE TRIGGER trg_emp_sal
+    AFTER INSERT OR UPDATE ON Employee
+    FOR EACH ROW
+DECLARE
+    EGrade VARCHAR2(2);
+    Sal NUMBER(8);
+BEGIN
+    SELECT :NEW.Salary
+    INTO Sal
+    FROM DUAL;
+    
+    SELECT Grade
+    INTO EGrade
+    FROM Sal_Grade
+    WHERE Sal>Losal AND Sal<Hisal;
+    
+    CASE
+        WHEN INSERTING  THEN
+            INSERT INTO Emp_Grade VALUES
+            (:NEW.Emp_ID,EGrade);
+        WHEN UPDATING THEN
+            UPDATE Emp_Grade
+            SET Grade=EGrade
+            WHERE Emp_ID=:NEW.Emp_ID; 
+    END CASE;
+END;
+/
+
+CREATE OR REPLACE TRIGGER trg_overtime 
+    BEFORE INSERT OR UPDATE ON Overtime
+    FOR EACH ROW
+DECLARE
+    EGrade VARCHAR2(2);
+    Sal NUMBER(8);
+    Type_multiplier NUMBER(2):=1;
+    Grade_rate NUMBER(8);
+BEGIN
+    SELECT Salary
+    INTO Sal
+    FROM Employee
+    WHERE Emp_ID=:NEW.Emp_ID;
+    
+    SELECT Grade
+    INTO EGrade
+    FROM Sal_Grade
+    WHERE Sal>Losal AND Sal<Hisal;  
+    :NEW.Grade:=EGrade;
+    
+    IF (:NEW.OTYPE LIKE 'NIGHT') THEN              
+        SELECT 2
+        INTO Type_multiplier
+        FROM DUAL;
+    END IF;
+            
+    SELECT Overtime_rate
+    INTO Grade_rate 
+    FROM Sal_Grade
+    WHERE Grade=EGrade;
+    
+    :NEW.Hourly_Pay:=(Grade_rate*Type_multiplier);
+    
+END;
+/
 
