@@ -400,7 +400,7 @@ BEGIN
     SELECT Grade
     INTO EGrade
     FROM Sal_Grade
-    WHERE Sal>Losal AND Sal<Hisal;
+    WHERE Sal>Losal AND Sal<=Hisal;
     
     CASE
         WHEN INSERTING  THEN
@@ -655,6 +655,8 @@ SELECT Ename AS Employee_Name,No_Of_Hours*Hourly_Pay AS Overtime_Pay
 FROM Employee join Overtime on (Employee.Emp_ID=Overtime.Emp_ID);
 
 COMMIT;
+
+
 
 
 
