@@ -1,5 +1,6 @@
 -- Project_Phase 2--
-     --Create--
+
+--Create--
      
 --Drop--
 --Drop Constraints
@@ -605,7 +606,7 @@ INSERT INTO OVERTIME(EMP_ID,ODATE,OTYPE,NO_OF_HOURS) VALUES
 INSERT INTO OVERTIME(EMP_ID,ODATE,OTYPE,NO_OF_HOURS) VALUES
 (1020,TO_DATE('22-SEP-2021','DD-MON-YYYY'),'DAY',3);
 
-     --Views--
+--Views--
 
 -- 7-1 --
 CREATE OR REPLACE VIEW Employee_History
