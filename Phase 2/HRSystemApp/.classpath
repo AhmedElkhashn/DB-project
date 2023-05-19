@@ -6,15 +6,15 @@
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="C:/Users/Ahmed/Desktop/ojdbc8-full/ojdbc8.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Ahmed/Desktop/ojdbc8-full/ons.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Ahmed/Desktop/ojdbc8-full/oraclepki.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Ahmed/Desktop/ojdbc8-full/orai18n.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Ahmed/Desktop/ojdbc8-full/osdt_cert.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Ahmed/Desktop/ojdbc8-full/osdt_core.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Ahmed/Desktop/ojdbc8-full/rs2xml.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Ahmed/Desktop/ojdbc8-full/simplefan.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Ahmed/Desktop/ojdbc8-full/ucp.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Ahmed/Desktop/ojdbc8-full/xdb6.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Ahmed/git/DB-project/Phase 2/ojdbc8-full/ojdbc8.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Ahmed/git/DB-project/Phase 2/ojdbc8-full/ons.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Ahmed/git/DB-project/Phase 2/ojdbc8-full/oraclepki.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Ahmed/git/DB-project/Phase 2/ojdbc8-full/orai18n.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Ahmed/git/DB-project/Phase 2/ojdbc8-full/osdt_cert.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Ahmed/git/DB-project/Phase 2/ojdbc8-full/osdt_core.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Ahmed/git/DB-project/Phase 2/ojdbc8-full/rs2xml.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Ahmed/git/DB-project/Phase 2/ojdbc8-full/simplefan.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Ahmed/git/DB-project/Phase 2/ojdbc8-full/ucp.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Ahmed/git/DB-project/Phase 2/ojdbc8-full/xdb6.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
