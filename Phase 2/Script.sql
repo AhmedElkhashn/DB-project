@@ -10,10 +10,8 @@ DROP CONSTRAINT Emp_Grade_fk
 DROP CONSTRAINT Grade_Emp_ID_fk;
 
 ALTER TABLE Transactions
-DROP CONSTRAINT Transactions_Username_Date_pk
-DROP CONSTRAINT Transactions_username_fk 
-DROP CONSTRAINT Transactions_Emp_ID_fk
-DROP CONSTRAINT Transactions_Pos_fk;
+DROP CONSTRAINT Transactions_Username_pk
+DROP CONSTRAINT Transactions_username_fk;
 
 ALTER TABLE Login
 DROP CONSTRAINT Login_Emp_ID_fk;
@@ -38,7 +36,8 @@ DROP CONSTRAINT Project_Pnumber_pk;
 
 ALTER TABLE Vehicle
 DROP CONSTRAINT Vehicle_ID_pk
-DROP CONSTRAINT Vehicle_Emp_ID_fk;
+DROP CONSTRAINT Vehicle_Emp_ID_fk
+DROP CONSTRAINT Vehicle_Emp_Id_uk;
 
 ALTER TABLE Position_Allowance
 DROP CONSTRAINT Positions_Pos_name_Aname_pk
@@ -64,7 +63,8 @@ ALTER TABLE Department
 DROP CONSTRAINT Dept_number_pk;
 
 ALTER TABLE Login
-DROP CONSTRAINT Login_username_pk;
+DROP CONSTRAINT Login_username_pk
+DROP CONSTRAINT Login_Emp_Id_uk;
 
 --Drop Tables
 DROP TABLE Employee;
@@ -99,7 +99,7 @@ CREATE TABLE Positions(
 
 CREATE TABLE Allowance(
     Aname VARCHAR2(22),
-    ADesc VARCHAR(100) NOT NULL);
+    ADesc VARCHAR2(100) NOT NULL);
     
 CREATE TABLE Position_Allowance(
     Pos_Name VARCHAR2(22),
@@ -119,14 +119,14 @@ CREATE TABLE Login(
 
 CREATE TABLE Transactions(
     Username VARCHAR2(22),
-    Date_Time TIMESTAMP NOT NULL,
+    Date_Time TIMESTAMP,
     Transaction_Type VARCHAR2(22), 
     Emp_ID NUMBER(4),
-    Pos VARCHAR2(22));
+    Pos VARCHAR2(22) NOT NULL);
 
 CREATE TABLE Overtime(
     Emp_ID NUMBER(4),
-    ODate DATE NOT NULL,
+    ODate DATE,
     OType VARCHAR2(22),
     No_Of_Hours NUMBER(3) NOT NULL,
     Hourly_Pay NUMBER(8),
@@ -155,7 +155,7 @@ CREATE TABLE Sal_Grade(
 
 CREATE TABLE Emp_Grade(
     Emp_ID NUMBER(4),
-    Grade VARCHAR2(1) NOT NULL);
+    Grade VARCHAR2(1));
 
 --Adding Constraints--
 
@@ -181,15 +181,17 @@ CONSTRAINT Positions_Pos_name_Aname_pk PRIMARY KEY (Pos_name,Aname));
 
 ALTER TABLE Vehicle
 ADD(
-CONSTRAINT Vehicle_ID_pk PRIMARY KEY (Vehicle_ID));
+CONSTRAINT Vehicle_ID_pk PRIMARY KEY (Vehicle_ID),
+CONSTRAINT Vehicle_Emp_Id_uk UNIQUE(Emp_id));
 
 ALTER TABLE Login
 ADD(
-CONSTRAINT Login_username_pk PRIMARY KEY (Username));
+CONSTRAINT Login_username_pk PRIMARY KEY (Username),
+CONSTRAINT Login_Emp_Id_uk UNIQUE(Emp_id));
 
 ALTER TABLE Transactions
 ADD(
-CONSTRAINT Transactions_Username_Date_pk PRIMARY KEY (Username,Date_Time,Transaction_Type,Emp_ID));
+CONSTRAINT Transactions_Username_pk PRIMARY KEY (Username,Date_Time,Transaction_Type,Emp_ID));
 
 ALTER TABLE Overtime
 ADD(
@@ -235,13 +237,7 @@ CONSTRAINT Vehicle_Emp_ID_fk FOREIGN KEY (Emp_ID) REFERENCES Employee (Emp_ID) O
 
 ALTER TABLE Transactions
 ADD(
-CONSTRAINT Transactions_username_fk FOREIGN KEY (Username) REFERENCES Login (Username),
-CONSTRAINT Transactions_Emp_ID_fk FOREIGN KEY (Emp_ID) REFERENCES Employee (Emp_ID),
-CONSTRAINT Transactions_Pos_fk FOREIGN KEY (Pos) REFERENCES Positions (Pos_name));
-
-ALTER TABLE Transactions
-DISABLE CONSTRAINT Transactions_Emp_ID_fk
-DISABLE CONSTRAINT Transactions_Pos_fk;
+CONSTRAINT Transactions_username_fk FOREIGN KEY (Username) REFERENCES Login (Username));
 
 ALTER TABLE Overtime
 ADD(
@@ -527,29 +523,10 @@ INSERT INTO POSITION_ALLOWANCE VALUES
 --inserting  HR aka users 
 INSERT INTO EMPLOYEE VALUES 
 (1000,'Ahmed Elkashen','M',TO_DATE('01-JAN-1999','DD-MON-YYYY'),TO_DATE('11-JAN-2018','DD-MON-YYYY'),23000,1500,55773311,'HR',50);
-INSERT INTO EMPLOYEE VALUES 
-(1005,'Mohamed Abuhaweeleh','M',TO_DATE('21-FEB-1997','DD-MON-YYYY'),TO_DATE('07-MAY-2019','DD-MON-YYYY'),12000,500,44554422,'HR',50);
-INSERT INTO EMPLOYEE VALUES 
-(1002,'Ahmed Al-Ghoul','M',TO_DATE('12-MAR-1997','DD-MON-YYYY'),TO_DATE('14-JUN-2020','DD-MON-YYYY'),12000,500,11559922,'HR',50);
-INSERT INTO EMPLOYEE VALUES 
-(1003,'Aws Fida El-Din','M',TO_DATE('02-FEB-1987','DD-MON-YYYY'),TO_DATE('17-MAR-2012','DD-MON-YYYY'),12000,500,11557722,'HR',50);
 
 --Login Table
 INSERT INTO LOGIN VALUES
-('***REMOVED***','***REMOVED***',1000);
-INSERT INTO LOGIN VALUES
-('***REMOVED***','***REMOVED***',1005);
-INSERT INTO LOGIN VALUES
-('***REMOVED***','***REMOVED***',1002);
-
-BEGIN
-    IF USER NOT IN ('***REMOVED***','***REMOVED***','***REMOVED***') THEN
-        INSERT INTO LOGIN VALUES
-        (USER,USER,1003);
-    END IF;
-END;
-/
-
+(USER,USER,1000);
 
 ALTER TRIGGER trg_transaction ENABLE;
 
@@ -578,7 +555,7 @@ INSERT INTO EMPLOYEE VALUES
 INSERT INTO VEHICLE VALUES
 (146273, 'RAM', 'Dodge', TO_DATE('19-JUN-2023','DD-MON-YYYY'),1000);
 INSERT INTO VEHICLE VALUES
-(883218, 'Landcruiser', 'Toyota', TO_DATE('05-AUG-2023','DD-MON-YYYY'),1005);
+(883218, 'Landcruiser', 'Toyota', TO_DATE('05-AUG-2023','DD-MON-YYYY'),1030);
 INSERT INTO VEHICLE VALUES
 (527991, 'Sportage', 'KIA', TO_DATE('02-JUL-2023','DD-MON-YYYY'),1010);
 INSERT INTO VEHICLE VALUES
