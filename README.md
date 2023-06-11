@@ -22,5 +22,5 @@ We were given a prompt and tasked to:
 4. In HRSystemApp go to the class Uitility and set dburl variable to your Database url 
 
    It should be in the following format: jdbc:oracle:thin:@hostname:port/service_name
-5. Run Login java
+5. Run Login.java
 7. Add use the same username and password of the orcale account that you ran the script on to login to the GUI
