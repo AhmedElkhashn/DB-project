@@ -23,4 +23,4 @@ We were given a prompt and tasked to:
 
    It should be in the following format: jdbc:oracle:thin:@hostname:port/service_name
 5. Run Login.java
-7. Add use the same username and password of the orcale account that you ran the script on to login to the GUI
+7. Use the same username and password of the orcale account that you ran the script on to login to the GUI
