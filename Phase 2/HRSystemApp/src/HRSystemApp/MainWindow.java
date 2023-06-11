@@ -46,15 +46,21 @@ public class MainWindow extends JFrame {
 	private JComboBox addDnoComboBox;
 	private JComboBox reportsComboBox;
 	private List<JTextField> allTextFields = new ArrayList<JTextField>();
+	private JLabel removeLabel;
+	private JLabel salLabel;
+	private JLabel allowanceLabel;
+	private String username;
+	private String pass;
 
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
+	public static void main(String[] args,String username,String pass) {
+		
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					MainWindow frame = new MainWindow();
+					MainWindow frame = new MainWindow(username,pass);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -63,10 +69,10 @@ public class MainWindow extends JFrame {
 		});
 	}
 
-	public MainWindow() throws SQLException {
+	public MainWindow(String username,String pass) throws SQLException {
 		
-
-
+		this.username=username;
+		this.pass=pass;
 
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -86,7 +92,7 @@ public class MainWindow extends JFrame {
 		panel.setLayout(null);
 		
 		JLabel lblNewLabel = new JLabel("Emp_ID:");
-		lblNewLabel.setBounds(10, 11, 46, 14);
+		lblNewLabel.setBounds(10, 11, 57, 14);
 		panel.add(lblNewLabel);
 		
 		JLabel lblNewLabel_1 = new JLabel("Name:");
@@ -94,7 +100,7 @@ public class MainWindow extends JFrame {
 		panel.add(lblNewLabel_1);
 		
 		JLabel lblNewLabel_2 = new JLabel("Gender:");
-		lblNewLabel_2.setBounds(10, 61, 46, 14);
+		lblNewLabel_2.setBounds(10, 61, 70, 14);
 		panel.add(lblNewLabel_2);
 		
 		addEmpIDTextField = new JTextField();
@@ -128,7 +134,7 @@ public class MainWindow extends JFrame {
 		panel.add(lblNewLabel_4);
 		
 		JLabel lblNewLabel_5 = new JLabel("Commission:");
-		lblNewLabel_5.setBounds(10, 136, 77, 14);
+		lblNewLabel_5.setBounds(10, 136, 75, 14);
 		panel.add(lblNewLabel_5);
 		
 		JLabel lblNewLabel_6 = new JLabel("Position:");
@@ -136,7 +142,7 @@ public class MainWindow extends JFrame {
 		panel.add(lblNewLabel_6);
 		
 		JLabel lblNewLabel_7 = new JLabel("DeptNo:");
-		lblNewLabel_7.setBounds(10, 211, 46, 14);
+		lblNewLabel_7.setBounds(10, 211, 70, 14);
 		panel.add(lblNewLabel_7);
 		
 		addSalTextField = new JTextField();
@@ -162,7 +168,7 @@ public class MainWindow extends JFrame {
 		addEmpButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					Utility utility =new Utility();
+					Utility utility =new Utility(username,pass);
 					utility.addEmp(addEmpIDTextField.getText(),addNameTextField.getText(),addGendersComboBox.getSelectedItem().toString(), addBirthdateTextField.getText(), addSalTextField.getText(), addCommTextField.getText(), addPhoneTextField.getText(), addPosComboBox.getSelectedItem().toString(), addDnoComboBox.getSelectedItem().toString());
 					JOptionPane.showMessageDialog(null, "Transaction is Successfull");
 					utility.terminate();
@@ -204,12 +210,13 @@ public class MainWindow extends JFrame {
 		
 		
 		
-		JLabel removeLabel = new JLabel("No Employee selected");
+		removeLabel = new JLabel("No Employee selected");
 		removeLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		removeLabel.setBounds(254, 303, 313, 14);
 		panel_1.add(removeLabel);
 		
 		removeTable = new JTable();
+		removeTable.setDefaultEditor(Object.class, null);
 		removeTable.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -223,7 +230,7 @@ public class MainWindow extends JFrame {
 		removeButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {			
 				try {
-					Utility utility =new Utility();
+					Utility utility =new Utility(username,pass);
 					String id =  removeTable.getValueAt(removeTable.getSelectedRow(),0).toString();					
 					utility.removeEmp(id);
 					JOptionPane.showMessageDialog(null, "Transaction is Successfull");
@@ -261,12 +268,13 @@ public class MainWindow extends JFrame {
 		scrollPane_1.setBounds(10, 45, 789, 257);
 		panel_2.add(scrollPane_1);
 		
-		JLabel salLabel = new JLabel("No Employee Selected");
+		salLabel = new JLabel("No Employee Selected");
 		salLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		salLabel.setBounds(271, 311, 234, 14);
 		panel_2.add(salLabel);
 		
 		salTable = new JTable();
+		salTable.setDefaultEditor(Object.class, null);
 		salTable.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -282,7 +290,7 @@ public class MainWindow extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				
 				try {
-					Utility utility =new Utility();
+					Utility utility =new Utility(username,pass);
 					String id =  salTable.getValueAt(salTable.getSelectedRow(),0).toString();				
 					utility.updateSal(id,salTextField.getText());
 					JOptionPane.showMessageDialog(null, "Transaction is Successfull");
@@ -312,17 +320,18 @@ public class MainWindow extends JFrame {
 		scrollPane_2.setBounds(10, 11, 553, 303);
 		panel_3.add(scrollPane_2);
 		
-		JLabel allowanceLabel = new JLabel("No Employee Selected");
+		allowanceLabel = new JLabel("No Employee Selected");
 		allowanceLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		allowanceLabel.setBounds(223, 326, 340, 14);
 		panel_3.add(allowanceLabel);
 		
 		empAllowanceTable = new JTable();
+		empAllowanceTable.setDefaultEditor(Object.class, null);
 		empAllowanceTable.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				try {
-					Utility utility =new Utility();
+					Utility utility =new Utility(username,pass);
 					
 					String pos =  empAllowanceTable.getValueAt(empAllowanceTable.getSelectedRow(),3).toString();
 					String id =  empAllowanceTable.getValueAt(empAllowanceTable.getSelectedRow(),0).toString();
@@ -343,6 +352,7 @@ public class MainWindow extends JFrame {
 		panel_3.add(scrollPane_3);
 		
 		allowanceTable = new JTable();
+		allowanceTable.setDefaultEditor(Object.class, null);
 		scrollPane_3.setViewportView(allowanceTable);
 		
 		
@@ -360,6 +370,7 @@ public class MainWindow extends JFrame {
 		panel_4.add(scrollPane_4);
 		
 		reportsTable = new JTable();
+		reportsTable.setDefaultEditor(Object.class, null);
 		reportsTable.setRowSelectionAllowed(false);
 		scrollPane_4.setViewportView(reportsTable);
 		
@@ -396,7 +407,7 @@ public class MainWindow extends JFrame {
 	}
 	
 	public void loadTables() throws SQLException {
-		Utility utility =new Utility();
+		Utility utility =new Utility(username,pass);
 		removeTable.setModel(DbUtils.resultSetToTableModel(utility.loadEmp()));
 		salTable.setModel(DbUtils.resultSetToTableModel(utility.loadEmpSal()));
 		empAllowanceTable.setModel(DbUtils.resultSetToTableModel(utility.loadEmpSal()));
@@ -405,7 +416,7 @@ public class MainWindow extends JFrame {
 	}
 	
 	public void loadComboBoxes() throws SQLException {
-		Utility utility =new Utility();
+		Utility utility =new Utility(username,pass);
 		ArrayList<String> positions=utility.getPositions();
 		for (int i=0;i<positions.size();i++) {
 			addPosComboBox.addItem(positions.get(i));
@@ -421,7 +432,7 @@ public class MainWindow extends JFrame {
 	
 
 	public void loadReport() throws SQLException{
-		Utility utility =new Utility();
+		Utility utility =new Utility(username,pass);
 		String report = reportsComboBox.getSelectedItem().toString();
 		if (report=="Employee History") {
 			reportsTable.setModel(DbUtils.resultSetToTableModel(utility.loadEmpReport()));
@@ -449,10 +460,15 @@ public class MainWindow extends JFrame {
 		removeTable.getSelectionModel().clearSelection();
 		salTable.getSelectionModel().clearSelection();
 		allowanceTable.getSelectionModel().clearSelection();
+		removeLabel.setText("No Employee Selected");
+		salLabel.setText("No Employee Selected");
+		allowanceLabel.setText("No Employee Selected");
 		addGendersComboBox.setSelectedIndex(-1);
 		addPosComboBox.setSelectedIndex(-1);
 		addDnoComboBox.setSelectedIndex(-1);
 		reportsComboBox.setSelectedIndex(0);
+		
+		
 		
 	}
 	
