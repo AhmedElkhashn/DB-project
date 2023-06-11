@@ -54,7 +54,7 @@ public class Login extends JFrame {
 		contentPane.add(lblNewLabel);
 		
 		JLabel lblNewLabel_1 = new JLabel("Password:");
-		lblNewLabel_1.setBounds(109, 127, 61, 14);
+		lblNewLabel_1.setBounds(109, 127, 68, 14);
 		contentPane.add(lblNewLabel_1);
 		
 		userTextField = new JTextField();
@@ -66,14 +66,15 @@ public class Login extends JFrame {
 		loginButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					Utility utility=new Utility();
+					
 					String username = userTextField.getText();
 					String pass = passTextField.getText();
+					Utility utility=new Utility(username,pass);
 					
 					if(utility.login(username, pass)) {
 						JOptionPane.showMessageDialog(null,"LOGIN IS SUCESSFUL");
 						Login.this.dispose();	
-						MainWindow.main(null);
+						MainWindow.main(null,username,pass);
 					}else {
 						JOptionPane.showMessageDialog(null,"NOT AUTHORIZED USER, TRY AGAIN");
 						userTextField.setText("");
@@ -83,7 +84,9 @@ public class Login extends JFrame {
 					utility.terminate();
 				} catch (SQLException e1) {
 					// TODO Auto-generated catch block
-					e1.printStackTrace();
+					JOptionPane.showMessageDialog(null,"NOT AUTHORIZED USER, TRY AGAIN");
+					userTextField.setText("");
+					passTextField.setText("");
 					
 				}
 			}

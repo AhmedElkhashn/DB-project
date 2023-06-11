@@ -5,16 +5,18 @@ import java.util.ArrayList;
 
 public class Utility 
 {
-	private String dburl="jdbc:oracle:thin:@***REMOVED***:1521/***REMOVED***";
-	private String user="***REMOVED***";
-	private String pass="***REMOVED***";
+	private String dburl="jdbc:oracle:thin:@hostname:port/service_name";
+	private String user;
+	private String pass;
 	private Statement stmt;
 	private PreparedStatement pstmt;
 	private Connection conn;
 	private ResultSet rs;
 	
-	public Utility() throws SQLException 
+	public Utility(String user,String pass) throws SQLException 
 	{
+		this.user=user;
+		this.pass=pass;
 		conn=DriverManager.getConnection(dburl, user, pass);
 		stmt=conn.createStatement();
 	}
@@ -26,10 +28,9 @@ public class Utility
 	}
 	
 	public boolean login(String username,String password) throws SQLException {
-		String sql="select username,pass from login where username=? and pass=?";
+		String sql="select username,pass from login where username=?";
 		pstmt=conn.prepareStatement(sql);
-		pstmt.setString(1, username);
-		pstmt.setString(2, password);
+		pstmt.setString(1, username.toUpperCase());
 		rs=pstmt.executeQuery();
 		if(rs.next())
 		{

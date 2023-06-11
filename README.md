@@ -16,3 +16,11 @@ We were given a prompt and tasked to:
 ### Tables
 ![Tables](https://github.com/AhmedElkhashn/DB-project/blob/main/Phase%202/Tables.drawio.png)
 ## How to run this project:
+1. Run the Script.sql file (found in Phase 2 folder) in Orcale
+2. Import the java project HRSystemApp (found in Phase 2 folder)
+3. Add all the jar files from ojfbc8-full (found in Phase 2 folder) to the classpath 
+4. In HRSystemApp go to the class Uitility and set dburl variable to your Database url 
+
+   It should be in the following format: jdbc:oracle:thin:@hostname:port/service_name
+5. Run Login.java
+7. Use the same username and password of the orcale account that you ran the script on to login to the GUI
