@@ -1,6 +1,6 @@
 # Human Resources Information System 
 ## This project is a simple database application for a recruitment firm
-(This project is for Fundamentals of Database Systems course)
+(This project was for Fundamentals of Database Systems course)
 
 We were given a prompt and tasked to:
 * Create a suitable ERD and relational schema that comply with the given constraints 
